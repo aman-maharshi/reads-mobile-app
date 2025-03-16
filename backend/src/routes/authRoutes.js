@@ -10,7 +10,7 @@ const generateToken = (id) => {
   })
 }
 
-// End Points
+// REGISTER USER
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body
@@ -49,10 +49,9 @@ router.post('/register', async (req, res) => {
 
     await user.save()
 
-    // 3. Generate token
+    // 3. Generate token and send response
     const token = generateToken(user._id)
 
-    // 4. Send response with token and user details to client
     res.status(201).json({
       token,
       user: {
@@ -69,8 +68,45 @@ router.post('/register', async (req, res) => {
 })
 
 
+// LOGIN USER
 router.post('/login', async (req, res) => {
-  res.send('login')
+  try {
+    const { email, password } = req.body
+
+    // 1. Validation Checks
+    if (!email || !password) {
+      return res.status(400).json({ error: 'All fields are required' })
+    }
+
+    // Check if user exists
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid credentials' })
+    }
+
+    // Check if password matches
+    const isMatch = await user.matchPassword(password)
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Invalid credentials' })
+    }
+
+    // 2. Generate token
+    const token = generateToken(user._id)
+    res.status(201).json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImage: user.profileImage
+      }
+    })
+
+
+  } catch (error) {
+    console.log("Error logging in user", error)
+    res.status(500).json({ error: 'Internal server error' })
+  }
 })
 
 
