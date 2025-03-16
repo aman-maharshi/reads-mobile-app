@@ -35,4 +35,34 @@ router.post('/add', protectRoute, async (req, res) => {
   }
 })
 
+// GET ALL BOOKS
+// http://localhost:3000/api/books/all?page=1&limit=5
+router.get('/all', protectRoute, async (req, res) => {
+  try {
+    const page = req.query.page || 1
+    const limit = req.query.limit || 5
+    const skip = (page - 1) * limit
+
+    const books = await Book.find()
+      .sort({ createdAt: -1 }) // desc
+      .skip(skip)
+      .limit(limit)
+      .populate('user', 'username profileImage')
+
+    const totalBooks = await Book.countDocuments()
+    res.json({
+      books,
+      totalBooks,
+      currentPage: page,
+      totalPages: Math.ceil(totalBooks / limit)
+    })
+
+  } catch (error) {
+    console.log("Error fetching books", error)
+    res.status(500).json({ message: error.message })
+  }
+})
+
+
+
 export default router
