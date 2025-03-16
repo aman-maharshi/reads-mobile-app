@@ -5,7 +5,7 @@ import protectRoute from '../middleware/auth.middleware.js'
 
 const router = express.Router()
 
-// ADD NEW BOOK
+// 1. ADD NEW BOOK
 router.post('/add', protectRoute, async (req, res) => {
   try {
     const { title, caption, rating, image } = req.body
@@ -36,9 +36,9 @@ router.post('/add', protectRoute, async (req, res) => {
   }
 })
 
-// GET ALL BOOKS
-// http://localhost:3000/api/books/all?page=1&limit=5
+// 2. GET ALL BOOKS
 router.get('/all', protectRoute, async (req, res) => {
+  // http://localhost:3000/api/books/all?page=1&limit=5
   try {
     const page = req.query.page || 1
     const limit = req.query.limit || 5
@@ -64,7 +64,7 @@ router.get('/all', protectRoute, async (req, res) => {
   }
 })
 
-// DELETE BOOK
+// 3. DELETE BOOK
 router.delete('/delete/:id', protectRoute, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
@@ -98,6 +98,17 @@ router.delete('/delete/:id', protectRoute, async (req, res) => {
   }
 })
 
+// 4. GET BOOKS BY USER
+router.get('/user', protectRoute, async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.user._id }).sort({ createdAt: -1 })
+    res.json(books)
+
+  } catch (error) {
+    console.log("Error fetching user books", error)
+    res.status(500).json({ message: error.message })
+  }
+})
 
 
 
