@@ -1,9 +1,10 @@
-import { View, Text, Platform, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Platform, KeyboardAvoidingView, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import styles from "../../styles/signup.styles"
 import { Ionicons } from '@expo/vector-icons'
 import COLORS from '../../constants/colors'
 import { Link, useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
 
 const Signup = () => {
   const [username, setUsername] = useState("")
@@ -14,7 +15,43 @@ const Signup = () => {
 
   const router = useRouter()
 
-  const handleSignup = () => { }
+  const handleSignup = async () => {
+    if (username && email && password) {
+      setLoading(true)
+      try {
+        const response = await fetch('http://localhost:3000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password }),
+        })
+        if (response.ok) {
+          setEmail("")
+          setPassword("")
+          setUsername("")
+
+          Toast.show({
+            type: "success",
+            text1: "Account created successfully",
+            position: "top",
+          })
+          router.push("/(auth)")
+        }
+        console.log(response, "handleSignup response")
+      } catch (error) {
+        console.log("handleSignup error", error)  
+      } finally {
+        setLoading(false)
+      }
+    } else {
+      Toast.show({
+				type: "error",
+				text1: "All fields are required",
+				position: "top",
+			})
+    }
+  }
 
   return (
     <KeyboardAvoidingView

@@ -2,6 +2,7 @@ import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import SafeScreen from "@/components/SafeScreen"
+import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   return (
@@ -13,7 +14,9 @@ export default function RootLayout() {
         </Stack>
       </SafeScreen>
 
+
       <StatusBar style="dark" />
+      <Toast />
     </SafeAreaProvider>
   )
 }
