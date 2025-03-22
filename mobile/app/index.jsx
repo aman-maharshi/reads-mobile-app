@@ -13,11 +13,11 @@ export default function Index() {
           <Text style={{fontWeight: "bold", textAlign: "center", fontSize: 16}}>Login</Text>
         </TouchableOpacity>
       </Link>
-      <Link href="/(auth)/signup" asChild>
+      {/* <Link href="/(auth)/signup" asChild>
         <TouchableOpacity style={{ marginTop: 40 }}>
         <Text style={{fontWeight: "bold", textAlign: "center", fontSize: 16}}>Sign Up</Text>
         </TouchableOpacity>
-      </Link>
+      </Link> */}
     </View>
   )
 }
