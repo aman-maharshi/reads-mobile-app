@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
     set({ loading: true })
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("https://reads-backend.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -21,8 +21,9 @@ export const useAuthStore = create((set) => ({
 
       const data = await response.json()
 
+      // console.log(data, "data")
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong")
+        throw new Error(data.error || "Something went wrong")
       }
 
       await AsyncStorage.setItem("token", data.token)
@@ -33,7 +34,7 @@ export const useAuthStore = create((set) => ({
       return { success: true }
 
     } catch (error) {
-      console.log(error)
+      console.log(error, "register error")
       set({ loading: false })
       return { success: false, error: error.message }
     }

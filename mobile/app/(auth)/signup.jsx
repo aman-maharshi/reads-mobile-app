@@ -26,7 +26,7 @@ const Signup = () => {
       })
       return
     }
-    
+
     const result = await register(username, email, password)
 
     if (result.success) {
@@ -35,6 +35,13 @@ const Signup = () => {
         text1: "Account created successfully",
         position: "top",
       })
+      setEmail("")
+      setPassword("")
+      setUsername("")
+
+      setTimeout(() => {
+        router.push("/(auth)")
+      }, 1000)
     } else {
       Toast.show({
         type: "error",
@@ -43,6 +50,9 @@ const Signup = () => {
       })
     }
   }
+
+  // console.log("user", user)
+  // console.log("token", token)
 
   return (
     <KeyboardAvoidingView
