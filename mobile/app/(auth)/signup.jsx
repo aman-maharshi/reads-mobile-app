@@ -18,6 +18,15 @@ const Signup = () => {
   const router = useRouter()
 
   const handleSignup = async () => {
+    if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
+      Toast.show({
+        type: "error",
+        text1: "All fields are required",
+        position: "top",
+      })
+      return
+    }
+    
     const result = await register(username, email, password)
 
     if (result.success) {
