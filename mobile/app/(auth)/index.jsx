@@ -14,7 +14,8 @@ const Login = () => {
 
   const { user, token, loading } = useAuthStore()
 
-  const handleLogin = () => { }
+  const handleLogin = async () => {
+  }
 
   return (
     <KeyboardAvoidingView
