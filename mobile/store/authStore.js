@@ -38,5 +38,18 @@ export const useAuthStore = create((set) => ({
       set({ loading: false })
       return { success: false, error: error.message }
     }
+  },
+
+  authCheck: async () => {
+    try {
+      const token = await AsyncStorage.getItem("token")
+      const userJson = await AsyncStorage.getItem("user")
+      const user = userJson ? JSON.parse(userJson) : null
+      console.log(token, user)
+
+      set({ token, user })
+    } catch (error) {
+      console.log(error, "authCheck error")
+    }
   }
 }))

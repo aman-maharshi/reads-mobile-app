@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, Image, TextInput, TouchableOpacity, ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import styles from "../../styles/login.styles"
 // import { Image } from "expo-image"
@@ -12,7 +12,12 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const { user, token, loading } = useAuthStore()
+  const { user, token, loading, authCheck } = useAuthStore()
+
+  useEffect(() => {
+    authCheck()
+  }, [])
+  
 
   const handleLogin = async () => {
   }
