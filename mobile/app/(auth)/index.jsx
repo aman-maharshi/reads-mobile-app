@@ -6,20 +6,44 @@ import { Ionicons } from "@expo/vector-icons"
 import COLORS from '../../constants/colors'
 import { Link } from "expo-router";
 import { useAuthStore } from '../../store/authStore'
+import Toast from "react-native-toast-message";
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const { user, token, loading, authCheck } = useAuthStore()
+  const { user, token, loading, authCheck, login } = useAuthStore()
 
   useEffect(() => {
     authCheck()
   }, [])
-  
+
 
   const handleLogin = async () => {
+    if (email.trim() === "" || password.trim() === "") {
+      Toast.show({
+        type: "error",
+        text1: "All fields are required",
+        position: "top",
+      })
+      return
+    }
+
+    const result = await login(email, password)
+
+    if (result.success) {
+      setEmail("")
+      setPassword("")
+
+      router.push("/(auth)")
+    } else {
+      Toast.show({
+        type: "error",
+        text1: result.error,
+        position: "top",
+      })
+    }
   }
 
   return (
