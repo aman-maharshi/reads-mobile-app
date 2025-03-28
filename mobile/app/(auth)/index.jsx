@@ -4,7 +4,7 @@ import styles from "../../styles/login.styles"
 // import { Image } from "expo-image"
 import { Ionicons } from "@expo/vector-icons"
 import COLORS from '../../constants/colors'
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useAuthStore } from '../../store/authStore'
 import Toast from "react-native-toast-message";
 
@@ -12,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
 
   const { user, token, loading, authCheck, login } = useAuthStore()
 
@@ -36,7 +37,7 @@ const Login = () => {
       setEmail("")
       setPassword("")
 
-      router.push("/(auth)")
+      router.push("/(tabs)")
     } else {
       Toast.show({
         type: "error",
