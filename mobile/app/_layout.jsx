@@ -15,13 +15,20 @@ export default function RootLayout() {
 
   useEffect(() => {
     authCheck()
-
-    if (user && token) {
-      router.replace("/(tabs)")
-    } else if (!user && !token && segments[0] !== "(auth)") {
-      router.replace("/(auth)/login")
-    }
   }, [])
+
+  useEffect(() => {
+    const onAuthScreen = segments[0] === "(auth)"
+    const isSignedIn = user && token
+
+    if (!onAuthScreen && !isSignedIn) {
+      router.replace("/(auth)")
+    } else if (isSignedIn && onAuthScreen) {
+      router.replace("/(tabs)")
+    }
+    
+  }, [user, token, segments])
+  
 
 
   return (
