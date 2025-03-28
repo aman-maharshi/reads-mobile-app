@@ -13,6 +13,7 @@ export default function RootLayout() {
 
   const { user, token, authCheck } = useAuthStore()
 
+  // get user and token from AsyncStorage if available
   useEffect(() => {
     authCheck()
   }, [])
