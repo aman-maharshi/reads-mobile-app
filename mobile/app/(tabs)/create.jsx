@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput } from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from "../../styles/create.styles"
+import COLORS from '../../constants/colors'
+import { Ionicons } from '@expo/vector-icons'
 
 const Create = () => {
   const [title, setTitle] = useState("")
@@ -29,10 +31,33 @@ const Create = () => {
       >
         <View style={styles.card}>
           <View style={styles.header}>
-              <Text style={styles.title}>Create a new post</Text>
-              <Text style={styles.subtitle}>Share your thoughts with the world</Text>
+            <Text style={styles.title}>Add Book Recommendataion</Text>
+            <Text style={styles.subtitle}>Share your favoutie reads with others</Text>
+          </View>
+
+          <View style={styles.form}>
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Book Title</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="book-outline"
+                  size={20}
+                  color={COLORS.textSecondary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter book title"
+                  value={title}
+                  onChangeText={setTitle}
+                  placeholderTextColor={COLORS.placeholderText}
+                />
+              </View>
+            </View>
           </View>
         </View>
+
+
       </ScrollView>
     </KeyboardAvoidingView>
   )
