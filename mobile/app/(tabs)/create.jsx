@@ -4,11 +4,12 @@ import { useRouter } from 'expo-router'
 import styles from "../../styles/create.styles"
 import COLORS from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
+import RatingPicker from '../../components/RatingPicker'
 
 const Create = () => {
   const [title, setTitle] = useState("")
   const [caption, setCaption] = useState("")
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(3)
   const [image, setImage] = useState(null) // preview image
   const [imageBase64, setImageBase64] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -54,6 +55,11 @@ const Create = () => {
                 />
               </View>
             </View>
+
+            <RatingPicker
+              rating={rating}
+              setRating={setRating}
+            />
           </View>
         </View>
 
