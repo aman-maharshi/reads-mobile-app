@@ -56,10 +56,14 @@ const Create = () => {
               </View>
             </View>
 
-            <RatingPicker
-              rating={rating}
-              setRating={setRating}
-            />
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Your Rating</Text>
+              <RatingPicker
+                rating={rating}
+                setRating={setRating}
+              />
+            </View>
+
           </View>
         </View>
 
