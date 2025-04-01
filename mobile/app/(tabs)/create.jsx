@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from "../../styles/create.styles"
 import COLORS from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import RatingPicker from '../../components/RatingPicker'
+import * as ImagePicker from 'expo-image-picker'
 
 const Create = () => {
   const [title, setTitle] = useState("")
@@ -16,7 +17,20 @@ const Create = () => {
 
   const router = useRouter()
 
-  const selectImage = async () => { }
+  const selectImage = async () => {
+    try {
+      if (Platform.OS !== "web") {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync()
+        if (status !== "granted") {
+          Alert.alert("Sorry, we need camera roll permissions to upload an image.")
+          return
+        }
+      }
+
+    } catch (error) {
+      console.log("Error selecting image:", error)
+    }
+  }
 
   const handleSubmit = async () => { }
 
@@ -62,6 +76,24 @@ const Create = () => {
                 rating={rating}
                 setRating={setRating}
               />
+            </View>
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Book Image</Text>
+
+              <TouchableOpacity style={styles.imagePicker} onPress={selectImage}>
+                {image ? (
+                  <Image
+                    source={{ uri: image }}
+                    style={styles.previewImage}
+                  />
+                ) : (
+                  <View style={styles.placeholderContainer}>
+                    <Ionicons name="image-outline" size={40} color={COLORS.textSecondary} />
+                    <Text style={styles.placeholderText}>Tap to select image</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
 
           </View>
