@@ -9,6 +9,7 @@ import COLORS from '../../constants/colors'
 import { Ionicons } from '@expo/vector-icons'
 import RatingPicker from '../../components/RatingPicker'
 import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
 
 const Create = () => {
   const [title, setTitle] = useState("")
@@ -39,7 +40,15 @@ const Create = () => {
 
         if (!result.canceled) {
           setImage(result.assets[0].uri)
-          setImageBase64(result.assets[0].base64)
+
+          if (result.assets[0].base64) {
+            setImageBase64(result.assets[0].base64)
+          } else {
+            const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+              encoding: FileSystem.EncodingType.Base64,
+            })
+            setImageBase64(base64)
+          }
         }
       }
     } catch (error) {
