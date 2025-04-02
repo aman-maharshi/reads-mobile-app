@@ -120,6 +120,39 @@ const Create = () => {
               </TouchableOpacity>
             </View>
 
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Caption</Text>
+              <TextInput
+                style={styles.textArea}
+                placeholder="Write your review or thoughts about this book..."
+                placeholderTextColor={COLORS.placeholderText}
+                value={caption}
+                onChangeText={setCaption}
+                multiline
+              />
+            </View>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <>
+                  <Ionicons
+                    name="cloud-upload-outline"
+                    size={20}
+                    color={COLORS.white}
+                    style={styles.buttonIcon}
+                  />
+                  <Text style={styles.buttonText}>Share</Text>
+                </>
+              )}
+
+            </TouchableOpacity>
+
           </View>
         </View>
 
