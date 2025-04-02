@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
+import {
+  View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity,
+  Alert, Image
+} from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from "../../styles/create.styles"
 import COLORS from '../../constants/colors'
@@ -25,8 +28,20 @@ const Create = () => {
           Alert.alert("Sorry, we need camera roll permissions to upload an image.")
           return
         }
-      }
 
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ["images"],
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 0.5,
+          base64: true,
+        })
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri)
+          setImageBase64(result.assets[0].base64)
+        }
+      }
     } catch (error) {
       console.log("Error selecting image:", error)
     }
