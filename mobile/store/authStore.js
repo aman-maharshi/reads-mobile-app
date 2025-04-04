@@ -1,6 +1,6 @@
 import { create } from "zustand"
-
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { BASE_URL } from '../constants/apiUrl'
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
     set({ loading: true })
 
     try {
-      const response = await fetch("https://reads-backend.onrender.com/api/auth/register", {
+      const response = await fetch(`${BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -44,7 +44,7 @@ export const useAuthStore = create((set) => ({
     set({ loading: true })
 
     try {
-      const response = await fetch("https://reads-backend.onrender.com/api/auth/login", {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

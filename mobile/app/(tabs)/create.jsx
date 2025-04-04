@@ -10,6 +10,8 @@ import { Ionicons } from '@expo/vector-icons'
 import RatingPicker from '../../components/RatingPicker'
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
+import { useAuthStore } from '../../store/authStore'
+import { BASE_URL } from '../../constants/apiUrl'
 
 const Create = () => {
   const [title, setTitle] = useState("")
@@ -18,6 +20,8 @@ const Create = () => {
   const [image, setImage] = useState(null) // preview image
   const [imageBase64, setImageBase64] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const { user, token } = useAuthStore()
 
   const router = useRouter()
 
@@ -56,7 +60,27 @@ const Create = () => {
     }
   }
 
-  const handleSubmit = async () => { }
+  const handleSubmit = async () => {
+    // if (!title || !caption || !imageBase64 || !rating) {
+    //   Alert.alert("Error", "Please fill in all fields")
+    //   return
+    // }
+
+    setLoading(true)
+    try {
+      // get file extension
+      // const imageExtension = image.split(".").pop()
+      // const imageType = `image/${imageExtension}` || `image/jpeg`
+      // const imageDataUrl = `data:${imageType};base64,${imageBase64}`
+
+      console.log(BASE_URL, "BASE_URL")
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <KeyboardAvoidingView
