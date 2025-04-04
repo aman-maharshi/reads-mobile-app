@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import {
   View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity,
-  Alert, Image
+  Alert, Image,
+  ActivityIndicator
 } from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from "../../styles/create.styles"
@@ -16,7 +17,7 @@ import { BASE_URL } from '../../constants/apiUrl'
 const Create = () => {
   const [title, setTitle] = useState("")
   const [caption, setCaption] = useState("")
-  const [rating, setRating] = useState(3)
+  const [rating, setRating] = useState(0)
   const [image, setImage] = useState(null) // preview image
   const [imageBase64, setImageBase64] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -61,22 +62,49 @@ const Create = () => {
   }
 
   const handleSubmit = async () => {
-    // if (!title || !caption || !imageBase64 || !rating) {
-    //   Alert.alert("Error", "Please fill in all fields")
-    //   return
-    // }
+    if (!title || !caption || !imageBase64 || !rating) {
+      Alert.alert("Error", "Please fill in all fields")
+      return
+    }
 
     setLoading(true)
     try {
       // get file extension
-      // const imageExtension = image.split(".").pop()
-      // const imageType = `image/${imageExtension}` || `image/jpeg`
-      // const imageDataUrl = `data:${imageType};base64,${imageBase64}`
+      const imageExtension = image.split(".").pop()
+      const imageType = `image/${imageExtension}` || `image/jpeg`
 
-      console.log(BASE_URL, "BASE_URL")
+      const imageDataUrl = `data:${imageType};base64,${imageBase64}`
+
+      const response = await fetch(`${BASE_URL}/api/books/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          caption,
+          rating: rating.toString(),
+          image: imageDataUrl,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong")
+      }
+
+      Alert.alert("Success", "Book recommendation added successfully")
+      setTitle("")
+      setCaption("")
+      setImage(null)
+      setImageBase64(null)
+      setRating(0)
 
     } catch (error) {
       console.log(error)
+      Alert.alert("Error", error.message || "Something went wrong")
     } finally {
       setLoading(false)
     }
