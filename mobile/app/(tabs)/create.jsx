@@ -115,8 +115,7 @@ const Create = () => {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      // keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 50}
-      keyboardVerticalOffset={100}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 50}
     >
       <ScrollView
         contentContainerStyle={styles.container}
@@ -124,7 +123,7 @@ const Create = () => {
       >
         <View style={styles.card}>
           <View style={styles.header}>
-            <Text style={styles.title}>Add Book Recommendataion</Text>
+            <Text style={styles.title}>Add a new Book</Text>
             <Text style={styles.subtitle}>Share your favoutie reads with others</Text>
           </View>
 
@@ -144,6 +143,25 @@ const Create = () => {
                   value={title}
                   onChangeText={setTitle}
                   placeholderTextColor={COLORS.placeholderText}
+                />
+              </View>
+            </View>
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Author</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="person-outline"
+                  size={20}
+                  color={COLORS.textSecondary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter author name"
+                  placeholderTextColor={COLORS.placeholderText}
+                  value={caption}
+                  onChangeText={setCaption}
                 />
               </View>
             </View>
@@ -172,19 +190,6 @@ const Create = () => {
                   </View>
                 )}
               </TouchableOpacity>
-            </View>
-
-            <View style={styles.formGroup}>
-              {/* <Text style={styles.label}>Caption</Text> */}
-              <Text style={styles.label}>Author</Text>
-              <TextInput
-                style={styles.textArea}
-                placeholder="Write your review or thoughts about this book..."
-                placeholderTextColor={COLORS.placeholderText}
-                value={caption}
-                onChangeText={setCaption}
-                // multiline
-              />
             </View>
 
             <TouchableOpacity

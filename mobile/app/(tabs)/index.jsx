@@ -103,6 +103,7 @@ const Home = () => {
 
       <View style={styles.bookDetails}>
         <Text style={styles.bookTitle}>{item.title}</Text>
+        <Text style={styles.caption}>{item.caption}</Text>
         <View style={styles.ratingContainer}>
           {Array.from({ length: item.rating }, (_, index) => (
             <Ionicons key={index} name="star" size={16} color="#FFD700" />
@@ -111,7 +112,6 @@ const Home = () => {
             <Ionicons key={index} name="star-outline" size={16} color="#FFD700" />
           ))}
         </View>
-        <Text style={styles.caption}>{item.caption}</Text>
         <Text style={styles.date}>
           {formatDate(item.createdAt)}
         </Text>
@@ -125,10 +125,6 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={{ padding: 10 }} onPress={logout}>
-        <Ionicons name="log-out-outline" size={24} color={COLORS.primary} />
-        <Text>Logout</Text>
-      </TouchableOpacity> */}
       <FlatList
         data={books}
         renderItem={bookCard}
