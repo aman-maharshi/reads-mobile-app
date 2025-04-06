@@ -115,7 +115,8 @@ const Create = () => {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-    // keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 50}
+      // keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 50}
+      keyboardVerticalOffset={100}
     >
       <ScrollView
         contentContainerStyle={styles.container}

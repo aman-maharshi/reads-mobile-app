@@ -40,7 +40,6 @@ const Home = () => {
       // will give not unique key (_id) error
       setBooks((prevBooks) => [...prevBooks, ...data.books])
 
-
       // merge the existing books with data.books and filters out duplicates based on _id
       // const uniqueBooks =
       //   refresh || pageNum === 1
@@ -116,7 +115,7 @@ const Home = () => {
       <FlatList
         data={books}
         renderItem={bookCard}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
