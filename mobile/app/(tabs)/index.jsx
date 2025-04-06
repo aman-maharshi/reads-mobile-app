@@ -5,6 +5,8 @@ import styles from "../../styles/home.styles"
 import { BASE_URL } from '../../constants/apiUrl'
 import { Image } from 'expo-image'
 import { Ionicons } from '@expo/vector-icons'
+import { formatDate } from '../../lib/utils'
+import COLORS from '../../constants/colors'
 
 const Home = () => {
   const { user, token, logout } = useAuthStore()
@@ -35,7 +37,22 @@ const Home = () => {
         throw new Error(data.error || "Failed to fetch books")
       }
 
+      // will give not unique key (_id) error
       setBooks((prevBooks) => [...prevBooks, ...data.books])
+
+
+      // merge the existing books with data.books and filters out duplicates based on _id
+      // const uniqueBooks =
+      //   refresh || pageNum === 1
+      //     ? data.books
+      //     : Array.from(
+      //       new Set([...books, ...data.books].map(book => book._id))
+      //     ).map(id =>
+      //       [...books, ...data.books].find(book => book._id === id)
+      //     )
+
+      // setBooks(uniqueBooks)
+
       setHasMore(pageNum < data.totalPages)
       setPage(pageNum)
 
@@ -74,6 +91,22 @@ const Home = () => {
           contentFit="cover"
         />
       </View>
+
+      <View style={styles.bookDetails}>
+        <Text style={styles.bookTitle}>{item.title}</Text>
+        <View style={styles.ratingContainer}>
+          {Array.from({ length: item.rating }, (_, index) => (
+            <Ionicons key={index} name="star" size={16} color="#FFD700" />
+          ))}
+          {Array.from({ length: 5 - item.rating }, (_, index) => (
+            <Ionicons key={index} name="star-outline" size={16} color="#FFD700" />
+          ))}
+        </View>
+        <Text style={styles.caption}>{item.caption}</Text>
+        <Text style={styles.date}>
+          {formatDate(item.createdAt)}
+        </Text>
+      </View>
     </View>
   )
 
@@ -86,6 +119,19 @@ const Home = () => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Reads 📚</Text>
+            <Text style={styles.headerSubtitle}>Discover great reads from the community👇</Text>
+          </View>
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Ionicons name="book-outline" size={60} color={COLORS.textSecondary} />
+            <Text style={styles.emptyText}>No book recommendations yet</Text>
+            <Text style={styles.emptySubtext}>Be the first to share a book!</Text>
+          </View>
+        }
       />
     </View>
   )
