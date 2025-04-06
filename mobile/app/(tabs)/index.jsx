@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import { useAuthStore } from "../../store/authStore"
 import styles from "../../styles/home.styles"
 import { BASE_URL } from '../../constants/apiUrl'
@@ -7,6 +7,7 @@ import { Image } from 'expo-image'
 import { Ionicons } from '@expo/vector-icons'
 import { formatDate } from '../../lib/utils'
 import COLORS from '../../constants/colors'
+import ScreenLoader from '../../components/ScreenLoader'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -119,20 +120,15 @@ const Home = () => {
   )
 
   if (loading) {
-    return (
-      <View style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.background,
-      }}>
-        <ActivityIndicator size={30} color={COLORS.primary} />
-      </View>
-    )
+    return <ScreenLoader />
   }
 
   return (
     <View style={styles.container}>
+      {/* <TouchableOpacity style={{ padding: 10 }} onPress={logout}>
+        <Ionicons name="log-out-outline" size={24} color={COLORS.primary} />
+        <Text>Logout</Text>
+      </TouchableOpacity> */}
       <FlatList
         data={books}
         renderItem={bookCard}
@@ -141,6 +137,14 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.25}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchBooks(1, true)}
+            colors={[COLORS.primary]} 
+            tintColor={COLORS.primary}
+          />
+        }
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Reads 📚</Text>
