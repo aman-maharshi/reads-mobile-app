@@ -53,8 +53,8 @@ router.get('/all', protectRoute, async (req, res) => {
     const totalBooks = await Book.countDocuments()
     res.json({
       books,
-      totalBooks,
-      currentPage: page,
+      totalBooks, // not used in the frontend for now
+      currentPage: page, // not used in the frontend for now
       totalPages: Math.ceil(totalBooks / limit)
     })
 
