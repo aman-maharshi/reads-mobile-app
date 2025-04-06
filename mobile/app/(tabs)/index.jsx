@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { formatDate } from '../../lib/utils'
 import COLORS from '../../constants/colors'
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
 const Home = () => {
   const { user, token, logout } = useAuthStore()
   const [books, setBooks] = useState([])
@@ -24,7 +26,7 @@ const Home = () => {
         setLoading(true)
       }
 
-      const response = await fetch(`${BASE_URL}/api/books/all?page=${pageNum}&limit=2`, {
+      const response = await fetch(`${BASE_URL}/api/books/all?page=${pageNum}&limit=5`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,19 +40,19 @@ const Home = () => {
       }
 
       // will give not unique key (_id) error
-      setBooks((prevBooks) => [...prevBooks, ...data.books])
+      // setBooks((prevBooks) => [...prevBooks, ...data.books])
 
       // merge the existing books with data.books and filters out duplicates based on _id
-      // const uniqueBooks =
-      //   refresh || pageNum === 1
-      //     ? data.books
-      //     : Array.from(
-      //       new Set([...books, ...data.books].map(book => book._id))
-      //     ).map(id =>
-      //       [...books, ...data.books].find(book => book._id === id)
-      //     )
+      const uniqueBooks =
+        refresh || pageNum === 1
+          ? data.books
+          : Array.from(
+            new Set([...books, ...data.books].map(book => book._id))
+          ).map(id =>
+            [...books, ...data.books].find(book => book._id === id)
+          )
 
-      // setBooks(uniqueBooks)
+      setBooks(uniqueBooks)
 
       setHasMore(pageNum < data.totalPages)
       setPage(pageNum)
@@ -63,6 +65,13 @@ const Home = () => {
       } else {
         setLoading(false)
       }
+    }
+  }
+
+  const handleLoadMore = async () => {
+    if (hasMore && !loading && !refreshing) {
+      // sleep(3000)
+      await fetchBooks(page + 1)
     }
   }
 
@@ -109,20 +118,43 @@ const Home = () => {
     </View>
   )
 
+  if (loading) {
+    return (
+      <View style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.background,
+      }}>
+        <ActivityIndicator size={30} color={COLORS.primary} />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
-      {loading && <ActivityIndicator color="black" />}
       <FlatList
         data={books}
         renderItem={bookCard}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.25}
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Reads 📚</Text>
             <Text style={styles.headerSubtitle}>Discover great reads from the community👇</Text>
           </View>
+        }
+        ListFooterComponent={
+          hasMore && books.length > 0 ? (
+            <ActivityIndicator
+              style={styles.footerLoader}
+              size={25}
+              color={COLORS.primary}
+            />
+          ) : null
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

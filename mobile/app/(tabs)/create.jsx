@@ -175,14 +175,15 @@ const Create = () => {
             </View>
 
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Caption</Text>
+              {/* <Text style={styles.label}>Caption</Text> */}
+              <Text style={styles.label}>Author</Text>
               <TextInput
                 style={styles.textArea}
                 placeholder="Write your review or thoughts about this book..."
                 placeholderTextColor={COLORS.placeholderText}
                 value={caption}
                 onChangeText={setCaption}
-                multiline
+                // multiline
               />
             </View>
 
