@@ -1,4 +1,34 @@
+
+const COLORS = {
+  primary: "#0064E0",              // New blue primary
+  textPrimary: "#FFFFFF",          // Main text - white
+  textSecondary: "#B0BEC5",        // Subtle text - light gray
+  textDark: "#90A4AE",             // Less prominent text
+  placeholderText: "#888888",      // For placeholders/input hints
+  background: "#0D1117",           // App background - deep dark
+  cardBackground: "#161B22",       // Card or elevated surface
+  inputBackground: "#1F2933",      // Inputs or fields background
+  border: "#2C3E50",               // Muted but visible border
+  white: "#FFFFFF",                // White
+  black: "#000000",                // Black
+};
+
+// const COLORS = {
+//   primary: "#0064E0",              // Keep primary blue
+//   textPrimary: "#000000",          // Main text - black
+//   textSecondary: "#455A64",        // Subtle text - dark gray
+//   textDark: "#263238",             // Even darker for secondary use
+//   placeholderText: "#9E9E9E",      // Light gray for placeholders
+//   background: "#FFFFFF",           // App background - white
+//   cardBackground: "#F5F5F5",       // Card or elevated surface - light gray
+//   inputBackground: "#ECEFF1",      // Inputs or fields background
+//   border: "#CFD8DC",               // Soft border color
+//   white: "#FFFFFF",                // White
+//   black: "#000000",                // Black
+// };
+
 // FOREST
+/*
 const COLORS = {
   primary: "#4CAF50",
   textPrimary: "#2e5a2e",
@@ -12,6 +42,7 @@ const COLORS = {
   white: "#ffffff",
   black: "#000000",
 };
+*/
 
 // RETRO
 /*

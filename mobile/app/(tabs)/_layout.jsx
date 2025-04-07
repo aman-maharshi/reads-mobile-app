@@ -18,8 +18,8 @@ const TabsLayout = () => {
       headerShadowVisible: false,
       tabBarStyle: {
         backgroundColor: COLORS.cardBackground,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopWidth: 0,
+        // borderTopColor: COLORS.border,
         paddingTop: 5,
         paddingBottom: insets.bottom,
         height: 60 + insets.bottom,
