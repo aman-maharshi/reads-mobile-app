@@ -8,6 +8,8 @@ import { BASE_URL } from '../../constants/apiUrl'
 import { Ionicons } from '@expo/vector-icons'
 import COLORS from '../../constants/colors'
 import { formatDate } from '../../lib/utils'
+import ProfileHeader from '../../components/ProfileHeader'
+import LogoutButton from '../../components/LogoutButton'
 
 const Profile = () => {
   const { user, token, logout } = useAuthStore()
@@ -17,45 +19,10 @@ const Profile = () => {
 
   const router = useRouter()
 
-  const confirmLogout = () => {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
-      {
-        text: "Cancel",
-        style: "cancel"
-      },
-      {
-        text: "Logout",
-        onPress: () => logout(),
-        style: "destructive"
-      }
-    ])
-  }
-
   return (
     <View style={styles.container}>
-      <View style={styles.profileHeader}>
-        <Image
-          source={{ uri: user?.profileImage }}
-          style={styles.profileImage}
-        />
-        <View style={styles.profileInfo}>
-          <Text style={styles.username}>{user?.username}</Text>
-          <Text style={styles.email}>{user?.email}</Text>
-          {user?.createdAt && (
-            <Text style={styles.memberSince}>
-              🗓️ Joined {formatDate(user?.createdAt)}
-            </Text>
-          )}
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={confirmLogout}
-      >
-        <Ionicons name="log-out-outline" size={20} color={COLORS.white} />
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
+      <ProfileHeader />
+      <LogoutButton />
     </View>
   )
 }
