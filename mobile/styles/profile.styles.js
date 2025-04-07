@@ -168,6 +168,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 14,
   },
+  themeRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginBottom: 16,
+  },
 });
 
 export default styles;

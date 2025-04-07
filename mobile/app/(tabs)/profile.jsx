@@ -16,6 +16,7 @@ const Profile = () => {
   const [books, setBooks] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [isDarkTheme, setIsDarkTheme] = useState(true)
 
   const router = useRouter()
 
@@ -30,6 +31,17 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
+      {/* <View style={styles.themeRow}>
+        <TouchableOpacity onPress={() => setIsDarkTheme(!isDarkTheme)}>
+          <Ionicons
+            name={isDarkTheme ? "moon-outline" : "sunny-outline"}
+            size={24}
+            color={COLORS.textSecondary}
+            style={styles.settingsIcon}
+          />
+        </TouchableOpacity>
+      </View> */}
+
       <ProfileHeader />
       <LogoutButton />
 
