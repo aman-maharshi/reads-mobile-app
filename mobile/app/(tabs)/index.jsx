@@ -60,6 +60,7 @@ const Home = () => {
 
     } catch (error) {
       console.error("Error fetching books:", error)
+      Alert.alert("Error", "Failed to fetch books. Pull down to refresh")
     } finally {
       if (refresh) {
         setRefreshing(false)

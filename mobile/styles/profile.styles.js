@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textDark,
     marginBottom: 4,
-    flex: 1,
   },
   bookDate: {
     fontSize: 12,
