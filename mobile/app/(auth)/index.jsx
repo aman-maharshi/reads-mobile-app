@@ -14,12 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
-  const { user, token, loading, authCheck, login } = useAuthStore()
-
-  useEffect(() => {
-    authCheck()
-  }, [])
-
+  const { loading, login, isCheckingAuth } = useAuthStore()
 
   const handleLogin = async () => {
     if (email.trim() === "" || password.trim() === "") {
@@ -46,6 +41,8 @@ const Login = () => {
       })
     }
   }
+
+  if (isCheckingAuth) return null
 
   return (
     <KeyboardAvoidingView

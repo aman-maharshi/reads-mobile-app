@@ -150,7 +150,7 @@ const Profile = () => {
         <Text style={styles.booksCount}>{books.length} books</Text>
       </View>
 
-      {loading ? <ScreenLoader /> : (
+      {loading && !refreshing ? <ScreenLoader /> : (
         <FlatList
           data={books}
           renderItem={renderBookItem}

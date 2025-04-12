@@ -29,8 +29,6 @@ export default function RootLayout() {
     }
     
   }, [user, token, segments])
-  
-
 
   return (
     <SafeAreaProvider>
