@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   illustrationImage: {
-    width: width * 0.75,
-    height: width * 0.75,
+    width: width * 0.65,
+    height: width * 0.65,
+    marginBottom: 30,
   },
   card: {
     backgroundColor: COLORS.cardBackground,
