@@ -1,10 +1,13 @@
 import { useEffect } from "react";
-import { Stack, useRouter, useSegments } from "expo-router"
+import { SplashScreen, Stack, useRouter, useSegments } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import SafeScreen from "@/components/SafeScreen"
 import Toast from "react-native-toast-message";
 import { useAuthStore } from "@/store/authStore"
+import { useFonts } from "expo-font"
+
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const router = useRouter()
@@ -12,6 +15,17 @@ export default function RootLayout() {
   // console.log(segments, "segments")
 
   const { user, token, authCheck } = useAuthStore()
+
+  const [fontsLoaded] = useFonts({
+    "JetBrainsMono-Medium": require("@/assets/fonts/JetBrainsMono-Medium.ttf"),
+  })
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded])
+  
 
   // get user and token from AsyncStorage if available
   useEffect(() => {
@@ -27,7 +41,7 @@ export default function RootLayout() {
     } else if (isSignedIn && onAuthScreen) {
       router.replace("/(tabs)")
     }
-    
+
   }, [user, token, segments])
 
   return (
