@@ -7,3 +7,5 @@ export const formatDate = (date) => {
     day: "numeric",
   })
 }
+
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

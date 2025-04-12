@@ -7,7 +7,7 @@ import styles from "../../styles/profile.styles"
 import { BASE_URL } from '../../constants/apiUrl'
 import { Ionicons } from '@expo/vector-icons'
 import COLORS from '../../constants/colors'
-import { formatDate } from '../../lib/utils'
+import { formatDate, sleep } from '../../lib/utils'
 import ProfileHeader from '../../components/ProfileHeader'
 import LogoutButton from '../../components/LogoutButton'
 import ScreenLoader from '../../components/ScreenLoader'
@@ -90,7 +90,11 @@ const Profile = () => {
     }
   }
 
-  const handleRefresh = () => {}
+  const handleRefresh = async () => {
+    setRefreshing(true)
+    await fetchUserBooks()
+    setRefreshing(false)
+  }
 
   const renderBookItem = ({ item }) => (
     <View style={styles.bookItem}>
