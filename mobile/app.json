@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "reads-app",
-    "slug": "reads-app",
+    "name": "My Reads",
+    "slug": "my-reads",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
