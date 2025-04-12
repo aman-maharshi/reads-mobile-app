@@ -17,6 +17,7 @@ const Profile = () => {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [deleteBookId, setDeleteBookId] = useState(null)
   const [isDarkTheme, setIsDarkTheme] = useState(true)
 
   const router = useRouter()
@@ -53,6 +54,44 @@ const Profile = () => {
     fetchUserBooks()
   }, [])
 
+  const confirmDeleteBook = (bookId) => {
+    Alert.alert("Delete Book", "Are you sure you want to delete this book?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => handleDeleteBook(bookId),
+      },
+    ])
+  }
+
+  const handleDeleteBook = async (bookId) => {
+    setDeleteBookId(bookId)
+    try {
+      const response = await fetch(`${BASE_URL}/api/books/delete/${bookId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to delete book")
+      }
+
+      setBooks(books.filter(book => book._id !== bookId))
+      Alert.alert("Success", "Book deleted successfully")
+
+    } catch (error) {
+      console.error(error)
+      Alert.alert("Error", "Failed to delete book")
+    } finally {
+      setDeleteBookId(null)
+    }
+  }
+
+  const handleRefresh = () => {}
+
   const renderBookItem = ({ item }) => (
     <View style={styles.bookItem}>
       <Image
@@ -76,8 +115,12 @@ const Profile = () => {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.deleteButton}>
+      <TouchableOpacity style={styles.deleteButton} onPress={() => confirmDeleteBook(item._id)}>
+        {deleteBookId === item._id ? (
+          <ActivityIndicator size="small" color={COLORS.textSecondary} />
+        ) : (
           <Ionicons name="trash-outline" size={20} color={COLORS.textSecondary} />
+        )}
       </TouchableOpacity>
     </View>
   )
@@ -110,6 +153,14 @@ const Profile = () => {
           keyExtractor={(item => item._id)}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.booksList}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={[COLORS.primary]}
+              tintColor={COLORS.primary}
+            />
+          }
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Ionicons name="book-outline" size={50} color={COLORS.textSecondary} />
