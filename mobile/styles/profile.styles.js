@@ -29,9 +29,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
+  profileHeaderUser: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 16,
+    paddingBottom: 16,
+    marginBottom: 16,
+  },
   profileImage: {
     width: 80,
     height: 80,
+    borderRadius: 40,
+    marginRight: 16,
+  },
+  profileImageUser: {
+    width: 40,
+    height: 40,
     borderRadius: 40,
     marginRight: 16,
   },

@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { formatDate } from '../../lib/utils'
 import COLORS from '../../constants/colors'
 import ScreenLoader from '../../components/ScreenLoader'
+import { Link } from 'expo-router'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -85,13 +86,23 @@ const Home = () => {
   const bookCard = ({ item }) => (
     <View style={styles.bookCard}>
       <View style={styles.bookHeader}>
-        <View style={styles.userInfo}>
-          <Image
-            source={{ uri: item.user.profileImage }}
-            style={styles.avatar}
-          />
-          <Text style={styles.username}>{item.user.username}</Text>
-        </View>
+        <Link href={{
+          pathname: "/userProfile", params: {
+            userId: item.user._id,
+            username: item.user.username,
+            profileImage: item.user.profileImage,
+          }
+        }} asChild>
+          <TouchableOpacity>
+            <View style={styles.userInfo}>
+              <Image
+                source={{ uri: item.user.profileImage }}
+                style={styles.avatar}
+              />
+              <Text style={styles.username}>{item.user.username}</Text>
+            </View>
+          </TouchableOpacity>
+        </Link>
       </View>
 
       <View style={styles.bookImageContainer}>
@@ -138,7 +149,7 @@ const Home = () => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => fetchBooks(1, true)}
-            colors={[COLORS.primary]} 
+            colors={[COLORS.primary]}
             tintColor={COLORS.primary}
           />
         }
