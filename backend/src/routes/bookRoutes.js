@@ -110,6 +110,18 @@ router.get('/user', protectRoute, async (req, res) => {
   }
 })
 
+// 5. GET BOOKS BY USER ID
+router.get('/user/:id', protectRoute, async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.params.id }).sort({ createdAt: -1 })
+    res.json(books)
+
+  } catch (error) {
+    console.log("Error fetching user books", error)
+    res.status(500).json({ message: error.message })
+  }
+})
+
 
 
 export default router
